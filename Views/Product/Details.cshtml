@@ -1,0 +1,56 @@
+@model sklep.Models.Product
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Img)
+        </dt>
+        <dd>
+            <img src="~/images/product/@Html.DisplayFor(model => model.Img)" width="100px" /> 
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.Number > 0) {
+        <a asp-controller="Cart" asp-action="AddToCart" 
+        asp-route-idproduct="@Model.Id">Buy</a>
+        <mark>|</mark>
+    }
+    else {
+        <mark>Niedostępny |</mark>
+    }
+    <a asp-action="Index">Back to List</a>
+</div>

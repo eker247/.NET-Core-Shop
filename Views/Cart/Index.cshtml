@@ -1,0 +1,61 @@
+@model List<sklep.Models.InCart>
+@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "Koszyk";
+    List<sklep.Models.Product> Products = 
+    ViewData["Products"] as List<sklep.Models.Product>;
+    var errors = ViewData["errors"] as Dictionary<string, int>;
+}
+
+@if (errors != null && errors.Count > 0) {
+    <h2>Uwaga!</h2>
+    foreach (var item in errors)
+    {
+        <div class="alert alert-danger">
+            <p><strong>@item.Key</strong> jest tylko <strong>@item.Value</strong> w magazynie.</p>
+        </div>
+    }
+}
+
+
+<h2>Koszyk</h2>
+
+<div>
+    <form asp-action="AddToCart" method="post">
+        <table class="table table-striped">
+            <tr>
+                <th>Nazwa</th>
+                <th>Ilość</th>
+            </tr>
+            @for (int i = 0; i < Model.Count; ++i) {
+                <tr>
+                    <td>
+                        @Products.FirstOrDefault(
+                            p => p.Id == Model[i].IdProduct).Name
+                        <input type="hidden" asp-for="@Model[i].IdProduct" 
+                        value="@Model[i].IdProduct" />
+                    </td>
+                    <td>
+                        <input type="number" min="0" max=@Products.FirstOrDefault(
+                            p => p.Id == Model[i].IdProduct).Number asp-for="@Model[i].Number" 
+                        value="@Model[i].Number" />
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <input type="submit" name="make" value="Opróżnij koszyk" />
+                </td>
+                <td>
+                    <input type="submit" name="make" value="Uaktualnij listę" />
+                    <input type="submit" name="make" value="Kup produkty" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div>
+    <a asp-controller="Product" asp-action="Index">Lista produktów</a>
+</div>
